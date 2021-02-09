@@ -1,0 +1,22 @@
+kind: Pod
+metadata:
+  name: terraform
+spec:
+  containers:
+  - name: terraform
+    image: hashicorp/terraform:light
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+      - name: gcp-credential
+        mountPath: /root/
+    env:
+      - name: GOOGLE_CLOUD_KEYFILE_JSON
+        value: "/root/gcp-service.json"
+      - name: GOOGLE_APPLICATION_CREDENTIALS
+        value: "/root/gcp-service.json"
+  volumes:
+    - name: gcp-credential
+      secret:
+        secretName: gcp-credential
